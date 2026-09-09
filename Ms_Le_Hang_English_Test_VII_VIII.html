@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Tập Tiếng Anh Tương Tác - Ms Lê Hằng English</title>
+    <!-- Google Fonts Nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675, #6C5CE7);
+            background-size: 400% 400%;
+            animation: gradientBG 18s ease infinite;
+            padding: 15px;
+            color: #2d3436;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .pattern-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.25;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><g fill="%23FFFFFF"><path d="M20 20 L25 10 L30 20 L40 25 L30 30 L25 40 L20 30 L10 25 Z"/><circle cx="90" cy="30" r="8"/><path d="M80 80 C80 70 100 70 100 80 C100 90 80 100 80 80 Z"/><path d="M30 90 Q35 75 45 90 T60 90" stroke="%23FFFFFF" stroke-width="4" fill="none"/></g></svg>');
+            animation: floatPattern 30s linear infinite;
+        }
+
+        @keyframes floatPattern {
+            0% { background-position: 0 0; }
+            100% { background-position: 500px 500px; }
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 60px;
+        }
+
+        .teacher-badge {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .teacher-badge span {
+            background: rgba(255, 255, 255, 0.95);
+            color: #6c5ce7;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: inline-block;
+            text-transform: uppercase;
+        }
+
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            text-align: center;
+            border: 3px solid #ffffff;
+        }
+
+        .main-title {
+            font-size: 1.7rem;
+            font-weight: 900;
+            color: #2d3436;
+            margin-bottom: 12px;
+        }
+
+        .notice-box {
+            background: #fff0f3;
+            border: 3px dashed #ff4757;
+            border-radius: 16px;
+            padding: 15px 18px;
+            margin-top: 10px;
+            text-align: center;
+            animation: pulseNotice 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseNotice {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+
+        .notice-title {
+            color: #d63031;
+            font-weight: 900;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+        }
+
+        .notice-text {
+            color: #2d3436;
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .notice-highlight {
+            color: #d63031;
+            font-weight: 900;
+            font-style: italic;
+        }
+
+        .sticky-stats {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: 2px solid #6c5ce7;
+        }
+
+        .stat-item {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #2d3436;
+        }
+
+        .stat-val {
+            background: #6c5ce7;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+        }
+
+        .progress-bar-container {
+            flex-grow: 1;
+            height: 12px;
+            background: #dfe6e9;
+            border-radius: 10px;
+            margin: 0 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00c9a7, #00d26a);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            border: 3px solid #ffffff;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .q-number {
+            background: #ff7675;
+            color: white;
+            font-weight: 900;
+            padding: 4px 14px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+        }
+
+        .q-category {
+            background: #eccc68;
+            color: #2d3436;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .q-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #2d3436;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: #ffffff;
+            border: 2.5px solid #e0e0e0;
+            border-radius: 18px;
+            padding: 14px 18px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #2d3436;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #d0d0d0;
+            display: flex;
+            align-items: center;
+            transition: all 0.15s ease;
+            position: relative;
+            user-select: none;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #c0c0c0;
+            border-color: #6c5ce7;
+            background: #f8f9fe;
+        }
+
+        .option-btn:active:not(.disabled) {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #c0c0c0;
+        }
+
+        .opt-prefix {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #f1f2f6;
+            color: #2d3436;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            margin-right: 14px;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .option-btn.correct {
+            background: #e8fae8 !important;
+            border-color: #00D26A !important;
+            color: #008040 !important;
+            box-shadow: 0 5px 0 #00aa55 !important;
+        }
+        .option-btn.correct .opt-prefix {
+            background: #00D26A !important;
+            color: white !important;
+        }
+
+        .option-btn.incorrect {
+            background: #ffeae8 !important;
+            border-color: #FF4757 !important;
+            color: #d63031 !important;
+            box-shadow: 0 5px 0 #d63031 !important;
+        }
+        .option-btn.incorrect .opt-prefix {
+            background: #FF4757 !important;
+            color: white !important;
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        .explanation-box {
+            display: none;
+            margin-top: 20px;
+            background: #f8f9fa;
+            border-radius: 18px;
+            padding: 18px 20px;
+            border-left: 6px solid #6c5ce7;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
+            animation: slideDown 0.35s ease-out forwards;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exp-head {
+            font-weight: 900;
+            color: #6c5ce7;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+
+        .exp-section {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .vocab-list {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin: 6px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .vocab-item {
+            margin-bottom: 4px;
+            color: #4a5568;
+            font-weight: 600;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #00c9a7, #00d26a);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 900;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 210, 106, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 12px 25px rgba(0, 210, 106, 0.5);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: white;
+            border-radius: 28px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .modal-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #6c5ce7;
+            margin: 15px 0;
+        }
+
+        .modal-comment {
+            background: #f0edff;
+            border-radius: 16px;
+            padding: 16px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #2d3436;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            border: 2px solid #6c5ce7;
+        }
+
+        .btn-close {
+            background: #6c5ce7;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pattern-bg"></div>
+
+    <div class="container">
+        <div class="teacher-badge">
+            <span>Giáo viên tạo: Ms Lê Hằng English</span>
+        </div>
+
+        <div class="main-header">
+            <h1 class="main-title">🌟 BÀI TẬP BÀI VII & VIII TIẾNG ANH TƯƠNG TÁC 🌟</h1>
+
+            <div class="notice-box">
+                <div class="notice-title">⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</div>
+                <div class="notice-text">
+                    Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.
+                </div>
+                <div class="notice-text">
+                    Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!
+                </div>
+                <div class="notice-highlight">* Kéo tới đâu, làm tới đó! *</div>
+            </div>
+        </div>
+
+        <div class="sticky-stats">
+            <div class="stat-item">
+                📝 Tiến độ: <span id="progress-text" class="stat-val">0/15</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+            <div class="stat-item">
+                ⭐ Điểm số: <span id="score-text" class="stat-val">0</span>
+            </div>
+        </div>
+
+        <div id="quiz-container"></div>
+
+        <div class="submit-container">
+            <button class="btn-submit" onclick="submitQuiz()">🎉 NỘP BÀI THI & XEM KẾT QUẢ</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="result-modal">
+        <div class="modal-card">
+            <div class="modal-title">🎓 KẾT QUẢ BÀI THI</div>
+            <div class="modal-score" id="modal-score-val">0 / 15</div>
+            <div class="modal-comment" id="modal-comment-text"></div>
+            <button class="btn-close" onclick="closeModal()">Đóng & Kiểm tra bài</button>
+        </div>
+    </div>
+
+    <script>
+        const rawQuestions = [{"id": 1, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Dạng 1", "question": "Write a complete sentence: 'Hobbies/ such as/ play/ sports/ or/ run/ be/ good/ your health'", "options": ["Hobbies such as playing sports or running are good for your health.", "Hobbies such as play sports or run is good for your health.", "Hobbies such as playing sports or running is good to your health.", "Hobbies such as to play sports or run are good for your health."], "answer": "Hobbies such as playing sports or running are good for your health.", "explanation": {"vocab": ["A. Hobbies such as playing sports or running are good for your health. (Đúng ngữ pháp)", "B. Hobbies such as play sports or run is good for your health. (Sai động từ sau such as & chia động từ to be số ít)", "C. Hobbies such as playing sports or running is good to your health. (Sai to be số ít & sai giới từ 'good to')", "D. Hobbies such as to play sports or run are good for your health. (Sai dạng to-V sau such as)"], "translation": "Những sở thích như chơi thể thao hay chạy bộ đều rất tốt cho sức khỏe của bạn.", "why_correct": "1. Cấu trúc 'such as + V-ing': Sau 'such as' bắt buộc dùng danh động từ (V-ing) -> 'playing sports or running'.\n2. Chủ ngữ chính là danh từ số nhiều 'Hobbies' nên động từ 'to be' chia số nhiều là 'are'.\n3. Cụm cố định: 'be good for health' (tốt cho sức khỏe).", "why_wrong": "Đáp án B dùng động từ nguyên thể sau 'such as' và chia 'is' là sai. Đáp án C chia 'is' (chủ ngữ là Hobbies số nhiều) và dùng sai giới từ 'good to'. Đáp án D dùng 'to play' là sai dạng sau 'such as'."}}, {"id": 2, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - So sánh ngang bằng", "question": "Write a complete sentence: 'Life/ our village/ not/ be/ as fast / their neighbourhood'", "options": ["Life in our village is not as fast as in their neighbourhood.", "Life our village is not as fast as their neighbourhood.", "Life in our village isn't as fast than their neighbourhood.", "Life in our village not is as fast as in their neighbourhood."], "answer": "Life in our village is not as fast as in their neighbourhood.", "explanation": {"vocab": ["A. Life in our village is not as fast as in their neighbourhood. (Đúng ngữ pháp & giới từ)", "B. Life our village is not as fast as their neighbourhood. (Thiếu giới từ 'in' ở các vế địa điểm)", "C. Life in our village isn't as fast than their neighbourhood. (Dùng sai từ 'than' trong so sánh ngang bằng)", "D. Life in our village not is as fast as in their neighbourhood. (Đặt sai vị trí từ phủ định 'not')"], "translation": "Cuộc sống ở làng của chúng tôi không hối hả/nhanh bằng ở khu xóm của họ.", "why_correct": "1. Giới từ chỉ nơi chốn: 'in our village' (ở trong làng chúng tôi) và 'in their neighbourhood' (ở khu xóm của họ).\n2. Cấu trúc so sánh ngang bằng dạng phủ định: 'S + be + not + as + adj + as + ...'.", "why_wrong": "Đáp án B thiếu giới từ 'in' trước nơi chốn. Đáp án C nhầm lẫn từ 'than' (dùng cho so sánh hơn) vào so sánh ngang bằng 'as...as'. Đáp án D đặt 'not' trước động từ 'is' là sai ngữ pháp."}}, {"id": 3, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Câu điều kiện loại 1", "question": "Write a complete sentence: 'If /weather /bad, we /not see / tribal dance / local festival.'", "options": ["If the weather is bad, we will not see the tribal dance at the local festival.", "If the weather was bad, we will not see tribal dance in local festival.", "If weather is bad, we don't see the tribal dance at local festival.", "If the weather will be bad, we won't see tribal dance at local festival."], "answer": "If the weather is bad, we will not see the tribal dance at the local festival.", "explanation": {"vocab": ["A. If the weather is bad, we will not see the tribal dance at the local festival. (Đúng ngữ pháp loại 1)", "B. If the weather was bad, we will not see tribal dance in local festival. (Dùng sai 'was' ở vế If)", "C. If weather is bad, we don't see the tribal dance at local festival. (Thiếu mạn từ 'the' & dùng 'don't see' ở mệnh đề chính)", "D. If the weather will be bad, we won't see tribal dance at local festival. (Dùng 'will be' ở vế If là sai)"], "translation": "Nếu thời tiết xấu, chúng tôi sẽ không xem được điệu múa bộ lạc tại lễ hội địa phương.", "why_correct": "Cấu trúc câu điều kiện loại 1 (diễn tả sự việc có thể xảy ra ở hiện tại/tương lai):\n- Mệnh đề If: 'If + S + V(hiện tại đơn)' -> 'If the weather is bad'.\n- Mệnh đề chính: 'S + will/won't + V(nguyên thể)' -> 'we will not see...'.\n- Giới từ địa điểm lễ hội: 'at the local festival'.", "why_wrong": "Đáp án B dùng 'was' (quá khứ) kết hợp với 'will' là sai thì. Đáp án C dùng 'don't see' thiếu tính tương lai và thiếu mạo từ 'the'. Đáp án D vi phạm quy tắc: KHÔNG dùng 'will' trong mệnh đề If."}}, {"id": 4, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Cấu trúc Prefer", "question": "Write a complete sentence: 'Many/ youngsters/ prefer/ spend/ time/ smartphones/ do/ outdoor/ activities'", "options": ["Many youngsters prefer spending time on smartphones to doing outdoor activities.", "Many youngsters prefer to spend time in smartphones than doing outdoor activities.", "Many youngsters prefer spend time on smartphones to do outdoor activities.", "Many youngsters prefer spending time with smartphones than do outdoor activities."], "answer": "Many youngsters prefer spending time on smartphones to doing outdoor activities.", "explanation": {"vocab": ["A. Many youngsters prefer spending time on smartphones to doing outdoor activities. (Đúng cấu trúc chuẩn)", "B. Many youngsters prefer to spend time in smartphones than doing outdoor activities. (Dùng sai 'in' & 'than')", "C. Many youngsters prefer spend time on smartphones to do outdoor activities. (Dùng sai động từ nguyên thể 'spend')", "D. Many youngsters prefer spending time with smartphones than do outdoor activities. (Dùng sai 'than do')"], "translation": "Nhiều bạn trẻ thích dành thời gian chơi điện thoại thông minh hơn là tham gia các hoạt động ngoài trời.", "why_correct": "1. Cấu trúc thích làm gì hơn làm gì: 'prefer V-ing1 to V-ing2' -> 'prefer spending time... to doing...'.\n2. Cụm từ cố định: 'spend time on smartphones' (dành thời gian trên điện thoại thông minh).", "why_wrong": "Đáp án B dùng giới từ 'in' và từ so sánh 'than' là sai cấu trúc của prefer. Đáp án C dùng 'prefer spend' nguyên mẫu là sai dạng. Đáp án D dùng 'than do' sai liên từ nối."}}, {"id": 5, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Thì Quá khứ đơn", "question": "Write a complete sentence: 'I /have/ dinner /Japanese family / learn /interesting /table manners /yesterday'", "options": ["I had dinner with a Japanese family and learned interesting table manners yesterday.", "I have dinner with Japanese family and learn interesting table manners yesterday.", "I had dinner to a Japanese family and learn interesting table manners yesterday.", "I was having dinner with Japanese family to learn interesting table manners yesterday."], "answer": "I had dinner with a Japanese family and learned interesting table manners yesterday.", "explanation": {"vocab": ["A. I had dinner with a Japanese family and learned interesting table manners yesterday. (Đúng quá khứ đơn)", "B. I have dinner with Japanese family and learn interesting table manners yesterday. (Dùng hiện tại đơn với yesterday)", "C. I had dinner to a Japanese family and learn interesting table manners yesterday. (Sai giới từ 'to' & sai 'learn')", "D. I was having dinner with Japanese family to learn interesting table manners yesterday. (Dùng thì quá khứ tiếp diễn không phù hợp)"], "translation": "Hôm qua tôi đã ăn tối cùng một gia đình người Nhật và học được những quy tắc ứng xử trên bàn ăn rất thú vị.", "why_correct": "1. Trạng từ thời gian 'yesterday' (hôm qua) báo hiệu hành động đã hoàn thành trong quá khứ -> Dùng thì Quá khứ đơn.\n2. Động từ chia quá khứ: 'have' -> 'had', 'learn' -> 'learned'.\n3. Cụm từ: 'have dinner with someone' (ăn tối với ai) & 'a Japanese family' (một gia đình người Nhật).", "why_wrong": "Đáp án B dùng thì Hiện tại đơn 'have/learn' khi có 'yesterday' là sai. Đáp án C dùng sai giới từ 'had dinner to' và chưa chia quá khứ cho 'learn'. Đáp án D dùng Quá khứ tiếp diễn 'was having' sai mục đích diễn tả chuỗi hành động."}}, {"id": 6, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Try to V / Proud of", "question": "Write a complete sentence: 'If/ you/ try/ good student/ parents/ proud/ you.'", "options": ["If you try to be a good student, your parents will be proud of you.", "If you try being a good student, your parents are proud for you.", "If you try to be a good student, your parents will be proud with you.", "If you will try to be good student, your parents are proud of you."], "answer": "If you try to be a good student, your parents will be proud of you.", "explanation": {"vocab": ["A. If you try to be a good student, your parents will be proud of you. (Đúng ngữ pháp)", "B. If you try being a good student, your parents are proud for you. (Dùng sai try V-ing & proud for)", "C. If you try to be a good student, your parents will be proud with you. (Dùng sai giới từ 'proud with')", "D. If you will try to be good student, your parents are proud of you. (Dùng 'will' ở vế If là sai)"], "translation": "Nếu con cố gắng trở thành một học sinh giỏi, bố mẹ sẽ rất tự hào về con.", "why_correct": "1. 'try to + V(nguyên thể)': cố gắng làm gì ('try to be a good student').\n2. Cụm tính từ cố định: 'be proud of someone' (tự hào về ai).\n3. Câu điều kiện loại 1: Mệnh đề If dùng hiện tại đơn 'try', mệnh đề chính dùng tương lai đơn 'will be proud of you'.", "why_wrong": "Đáp án B dùng 'try being' (thử làm gì) không đúng nét nghĩa cố gắng và sai giới từ 'proud for'. Đáp án C dùng sai giới từ 'proud with'. Đáp án D vi phạm quy tắc không dùng 'will' trong mệnh đề If."}}, {"id": 7, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Câu hỏi Take place", "question": "Write a complete sentence: 'Choi Trau fesival/ take/ Hai Phong/ annually ?'", "options": ["Does Choi Trau festival take place in Hai Phong annually?", "Is Choi Trau festival take place at Hai Phong annually?", "Do Choi Trau festival take place in Hai Phong annually?", "Does Choi Trau festival takes place in Hai Phong annually?"], "answer": "Does Choi Trau festival take place in Hai Phong annually?", "explanation": {"vocab": ["A. Does Choi Trau festival take place in Hai Phong annually? (Đúng trợ động từ & động từ nguyên thể)", "B. Is Choi Trau festival take place at Hai Phong annually? (Dùng sai động từ to be 'Is' với động từ thường)", "C. Do Choi Trau festival take place in Hai Phong annually? (Dùng sai trợ động từ 'Do' cho chủ ngữ số ít)", "D. Does Choi Trau festival takes place in Hai Phong annually? (Sai vì động từ 'takes' chưa đưa về nguyên thể)"], "translation": "Lễ hội Chọi Trâu có diễn ra ở Hải Phòng hàng năm hay không?", "why_correct": "1. Cụm động từ: 'take place' (diễn ra / tổ chức).\n2. Thì Hiện tại đơn dạng câu hỏi Yes/No với chủ ngữ số ít 'Choi Trau festival': Trợ động từ 'Does' + S + V(nguyên thể) -> 'Does Choi Trau festival take place...'.\n3. Giới từ chỉ tỉnh/thành phố: 'in Hai Phong'.", "why_wrong": "Đáp án B dùng to be 'Is' đi kèm động từ thường 'take place' là sai ngữ pháp. Đáp án C dùng 'Do' cho chủ ngữ số ít là sai. Đáp án D đã có trợ động từ 'Does' nhưng động từ 'takes' vẫn chia -s là sai."}}, {"id": 8, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Cấu trúc It takes time", "question": "Write a complete sentence: 'It/ take/ us/ 2 hours/ travel/ Ha Noi/ Ho Chi Minh/ plane/ yesterday.'", "options": ["It took us 2 hours to travel from Ha Noi to Ho Chi Minh City by plane yesterday.", "It takes us 2 hours travelling from Ha Noi to Ho Chi Minh City with plane yesterday.", "It took us 2 hours travel from Ha Noi to Ho Chi Minh City by plane yesterday.", "It was taking us 2 hours to travel from Ha Noi to Ho Chi Minh City in plane yesterday."], "answer": "It took us 2 hours to travel from Ha Noi to Ho Chi Minh City by plane yesterday.", "explanation": {"vocab": ["A. It took us 2 hours to travel from Ha Noi to Ho Chi Minh City by plane yesterday. (Đúng cấu trúc)", "B. It takes us 2 hours travelling from Ha Noi to Ho Chi Minh City with plane yesterday. (Sai thì & sai 'with')", "C. It took us 2 hours travel from Ha Noi to Ho Chi Minh City by plane yesterday. (Thiếu 'to' trước động từ travel)", "D. It was taking us 2 hours to travel from Ha Noi to Ho Chi Minh City in plane yesterday. (Dùng sai quá khứ tiếp diễn & 'in plane')"], "translation": "Hôm qua chúng tôi đã mất 2 tiếng đồng hồ để di chuyển từ Hà Nội vào Thành phố Hồ Chí Minh bằng máy bay.", "why_correct": "1. Cấu trúc tốn thời gian làm gì trong quá khứ (có 'yesterday'): 'It took + sb + thời gian + to V' -> 'It took us 2 hours to travel'.\n2. Cấu trúc từ đâu đến đâu: 'from A to B' -> 'from Ha Noi to Ho Chi Minh City'.\n3. Giới từ phương tiện di chuyển: 'by plane' (bằng máy bay).", "why_wrong": "Đáp án B dùng thì hiện tại 'takes' khi có 'yesterday' và dùng sai 'with plane'. Đáp án C thiếu 'to' ('to travel'). Đáp án D dùng thì quá khứ tiếp diễn không phù hợp và sai giới từ 'in plane'."}}, {"id": 9, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Danh từ số nhiều & Such as", "question": "Write a complete sentence: 'Some /hobby/ interesting /such / make crafts / collect things.'", "options": ["Some hobbies are interesting such as making crafts or collecting things.", "Some hobby is interesting such as make crafts or collect things.", "Some hobbies are interesting like to make crafts and collect things.", "Some hobby are interesting such as making crafts or collecting things."], "answer": "Some hobbies are interesting such as making crafts or collecting things.", "explanation": {"vocab": ["A. Some hobbies are interesting such as making crafts or collecting things. (Đúng ngữ pháp)", "B. Some hobby is interesting such as make crafts or collect things. (Dùng số ít 'hobby' & động từ nguyên thể)", "C. Some hobbies are interesting like to make crafts and collect things. (Dùng sai dạng 'like to make')", "D. Some hobby are interesting such as making crafts or collecting things. (Dùng 'hobby' số ít với 'are')"], "translation": "Một số sở thích rất thú vị như làm đồ thủ công hay sưu tầm các đồ vật.", "why_correct": "1. 'Some' đi với danh từ đếm được số nhiều: 'Some hobbies' -> Động từ to be chia số nhiều là 'are'.\n2. Cấu trúc ví dụ: 'such as + V-ing1 or V-ing2' -> 'such as making crafts or collecting things'.", "why_wrong": "Đáp án B dùng danh từ số ít 'Some hobby' và động từ nguyên thể sau 'such as'. Đáp án C dùng 'like to make' sai dạng ví dụ. Đáp án D chưa đổi 'hobby' sang số nhiều 'hobbies' mà lại dùng động từ số nhiều 'are'."}}, {"id": 10, "type": "mcq", "category": "VII. Viết câu hoàn chỉnh - Chỉ mục đích To-V", "question": "Write a complete sentence: 'Many /Vietnamese /people/ go / temples /pagodas /pray / good luck'", "options": ["Many Vietnamese people go to temples and pagodas to pray for good luck.", "Many Vietnamese people go temples and pagodas for pray good luck.", "Many Vietnamese people go to temples and pagodas to pray good luck.", "Many Vietnamese people goes to temples and pagodas for praying good luck."], "answer": "Many Vietnamese people go to temples and pagodas to pray for good luck.", "explanation": {"vocab": ["A. Many Vietnamese people go to temples and pagodas to pray for good luck. (Đúng chuẩn ngữ pháp)", "B. Many Vietnamese people go temples and pagodas for pray good luck. (Thiếu giới từ 'to' sau go & dùng 'for pray')", "C. Many Vietnamese people go to temples and pagodas to pray good luck. (Thiếu giới từ 'for' sau pray)", "D. Many Vietnamese people goes to temples and pagodas for praying good luck. (Chia sai 'goes' với chủ ngữ số nhiều)"], "translation": "Nhiều người dân Việt Nam đi đến các đền, chùa để cầu may mắn.", "why_correct": "1. Giới từ hướng đến địa điểm: 'go to temples and pagodas'.\n2. Mệnh đề chỉ mục đích: 'to + V(nguyên thể)' -> 'to pray'.\n3. Cụm động từ cố định: 'pray for good luck' (cầu nguyện cho sự may mắn).", "why_wrong": "Đáp án B thiếu giới từ 'to' sau 'go' và dùng sai 'for pray'. Đáp án C thiếu giới từ 'for' trong cụm 'pray for good luck'. Đáp án D chia động từ 'goes' số ít với chủ ngữ số nhiều 'Many Vietnamese people'."}}, {"id": 11, "type": "mcq", "category": "VIII. Viết lại câu - Addicted to", "question": "Rewrite the sentence: 'Does your brother fancy playing video games?' (addicted)", "options": ["Is your brother addicted to playing video games?", "Does your brother addicted to playing video games?", "Is your brother addicted with playing video games?", "Is your brother addicted for playing video games?"], "answer": "Is your brother addicted to playing video games?", "explanation": {"vocab": ["A. Is your brother addicted to playing video games? (Đúng cấu trúc be addicted to)", "B. Does your brother addicted to playing video games? (Dùng sai trợ động từ 'Does' với tính từ)", "C. Is your brother addicted with playing video games? (Dùng sai giới từ 'addicted with')", "D. Is your brother addicted for playing video games? (Dùng sai giới từ 'addicted for')"], "translation": "Anh/Em trai của bạn có thích chơi trò chơi điện tử không? -> Anh/Em trai của bạn có bị nghiện chơi trò chơi điện tử không?", "why_correct": "1. Động từ 'fancy + V-ing' (thích làm gì) chuyển đổi sang tính từ chỉ sự mê mẩn/nghiện ngập: 'be addicted to + V-ing'.\n2. Vì 'addicted' là tính từ nên câu hỏi Yes/No phải dùng động từ 'To Be' lên đầu câu: 'Is + S + addicted to + V-ing...?'.", "why_wrong": "Đáp án B dùng trợ động từ 'Does' đứng trước tính từ 'addicted' là sai ngữ pháp. Đáp án C dùng sai giới từ 'with'. Đáp án D dùng sai giới từ 'for'."}}, {"id": 12, "type": "mcq", "category": "VIII. Viết lại câu - As long as -> If", "question": "Rewrite the sentence: 'She will get the job as long as she does well in the interview.' (if)", "options": ["She will get the job if she does well in the interview.", "She will get the job if she will do well in the interview.", "She gets the job if she did well in the interview.", "She will get the job if she do well in the interview."], "answer": "She will get the job if she does well in the interview.", "explanation": {"vocab": ["A. She will get the job if she does well in the interview. (Đúng chuẩn ngữ pháp loại 1)", "B. She will get the job if she will do well in the interview. (Dùng 'will do' ở mệnh đề If)", "C. She gets the job if she did well in the interview. (Trộn lẫn thì hiện tại và quá khứ)", "D. She will get the job if she do well in the interview. (Chia sai động từ 'do' với chủ ngữ 'she')"], "translation": "Cô ấy sẽ nhận được công việc miễn là cô ấy thể hiện tốt trong buổi phỏng vấn. -> Cô ấy sẽ nhận được công việc nếu cô ấy thể hiện tốt trong buổi phỏng vấn.", "why_correct": "Cụm từ 'as long as' (miễn là) đồng nghĩa với liên từ 'if' (nếu). Câu điều kiện loại 1: 'S + will + V(nguyên thể) + IF + S + V(hiện tại đơn)'. Chủ ngữ 'she' số ít chia động từ 'does'.", "why_wrong": "Đáp án B vi phạm quy tắc dùng 'will' trong mệnh đề If. Đáp án C dùng 'did' (quá khứ) sai thì. Đáp án D dùng động từ nguyên thể 'do' với chủ ngữ ngôi thứ 3 số ít 'she'."}}, {"id": 13, "type": "mcq", "category": "VIII. Viết lại câu - Adore -> Hooked on", "question": "Rewrite the sentence: 'Many teenagers adore spending time surfing the Internet' (hooked)", "options": ["Many teenagers are hooked on spending time surfing the Internet.", "Many teenagers are hooked with spending time surfing the Internet.", "Many teenagers hooked to spending time surfing the Internet.", "Many teenagers are hooked in spending time surfing the Internet."], "answer": "Many teenagers are hooked on spending time surfing the Internet.", "explanation": {"vocab": ["A. Many teenagers are hooked on spending time surfing the Internet. (Đúng cấu trúc be hooked on)", "B. Many teenagers are hooked with spending time surfing the Internet. (Dùng sai giới từ 'hooked with')", "C. Many teenagers hooked to spending time surfing the Internet. (Thiếu động từ to be 'are')", "D. Many teenagers are hooked in spending time surfing the Internet. (Dùng sai giới từ 'hooked in')"], "translation": "Nhiều bạn thiếu niên rất yêu thích việc dành thời gian lướt Mạng Internet. -> Nhiều bạn thiếu niên bị mê mẩn/đam mê việc dành thời gian lướt Mạng Internet.", "why_correct": "Động từ 'adore + V-ing' (yêu thích làm gì) tương đương nghĩa với cụm tính từ thành ngữ 'be hooked on + V-ing' (bị thu hút/đam mê làm gì). Chủ ngữ số nhiều 'Many teenagers' đi với động từ to be 'are'.", "why_wrong": "Đáp án B dùng sai giới từ 'with'. Đáp án C thiếu động từ to be 'are' trước tính từ 'hooked'. Đáp án D dùng sai giới từ 'in'."}}, {"id": 14, "type": "mcq", "category": "VIII. Viết lại câu - If not -> Unless", "question": "Rewrite the sentence: 'If it doesn’t rain tomorrow, I will go on a picnic with my classmates.' (Unless)", "options": ["Unless it rains tomorrow, I will go on a picnic with my classmates.", "Unless it doesn't rain tomorrow, I will go on a picnic with my classmates.", "Unless it rain tomorrow, I will go on a picnic with my classmates.", "Unless it rains tomorrow, I won't go on a picnic with my classmates."], "answer": "Unless it rains tomorrow, I will go on a picnic with my classmates.", "explanation": {"vocab": ["A. Unless it rains tomorrow, I will go on a picnic with my classmates. (Đúng cấu trúc Unless = If not)", "B. Unless it doesn't rain tomorrow, I will go on a picnic with my classmates. (Bị phủ định 2 lần)", "C. Unless it rain tomorrow, I will go on a picnic with my classmates. (Chưa chia động từ 'rains' theo chủ ngữ 'it')", "D. Unless it rains tomorrow, I won't go on a picnic with my classmates. (Thay đổi phủ định ở mệnh đề chính gây sai nghĩa)"], "translation": "Nếu ngày mai trời không mưa, tớ sẽ đi dã ngoại cùng các bạn cùng lớp. -> Trừ khi ngày mai trời mưa, tớ sẽ đi dã ngoại cùng các bạn cùng lớp.", "why_correct": "1. Liên từ 'Unless' tương đương với 'If ... not' (Trừ khi / Nếu ... không).\n2. Khi thay 'If it doesn't rain' bằng 'Unless', bỏ trợ động từ phủ định 'doesn't' và chia động từ khẳng định theo chủ ngữ ngôi thứ 3 số ít 'it' -> 'Unless it rains'.\n3. Mệnh đề chính giữ nguyên.", "why_wrong": "Đáp án B vi phạm lỗi phủ định 2 lần ('Unless' kết hợp 'doesn't'). Đáp án C dùng động từ nguyên mẫu 'rain' chưa chia theo chủ ngữ số ít 'it'. Đáp án D tự ý sửa 'will' thành 'won't' làm sai lệch nghĩa câu gốc."}}, {"id": 15, "type": "mcq", "category": "VIII. Viết lại câu - Although -> However", "question": "Rewrite the sentence: 'Although she was tired, she tried to finish all her homework.' (however)", "options": ["She was tired; however, she tried to finish all her homework.", "Although she was tired, however she tried to finish all her homework.", "She was tired however, she tried to finish all her homework.", "However she was tired, she tried to finish all her homework."], "answer": "She was tired; however, she tried to finish all her homework.", "explanation": {"vocab": ["A. She was tired; however, she tried to finish all her homework. (Đúng cấu trúc ngắt câu với however)", "B. Although she was tired, however she tried to finish all her homework. (Dùng thừa cả Although và However)", "C. She was tired however, she tried to finish all her homework. (Thiếu dấu chấm phẩy trước 'however')", "D. However she was tired, she tried to finish all her homework. (Dùng 'however' như liên từ phụ thuộc đứng đầu là sai ý)"], "translation": "Mặc dù cô ấy rất mệt, cô ấy vẫn cố gắng hoàn thành tất cả bài tập về nhà. -> Cô ấy rất mệt; tuy nhiên, cô ấy vẫn cố gắng hoàn thành tất cả bài tập về nhà.", "why_correct": "1. 'Although + Mệnh đề 1, Mệnh đề 2' diễn tả sự nhượng bộ.\n2. Khi chuyển sang trạng từ liên kết 'however' (tuy nhiên): Mệnh đề 1 đứng trước, theo sau bởi dấu chấm phẩy (;), từ 'however', dấu phẩy (,) rồi mới đến Mệnh đề 2 -> 'S + V; however, S + V'.", "why_wrong": "Đáp án B mắc lỗi lặp từ (dùng đồng thời cả 'Although' lẫn 'however'). Đáp án C thiếu dấu chấm phẩy (;) phân cách hai mệnh đề độc lập. Đáp án D dùng 'however' đứng đầu câu không dùng đúng cú pháp nối mệnh đề chỉ kết quả ngược lại."}}];
+
+        let userAnswers = {};
+        let totalScore = 0;
+        let audioCtx = null;
+        let shuffledMap = {};
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playSound(type) {
+            try {
+                initAudio();
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'correct') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                } else {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(160, audioCtx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                }
+            } catch (e) {
+                console.log("Audio play error:", e);
+            }
+        }
+
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 60,
+                    spread: 70,
+                    origin: { y: 0.7 }
+                });
+            }
+        }
+
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            rawQuestions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.id = `q-card-${q.id}`;
+
+                const shuffledOptions = shuffleArray(q.options);
+                shuffledMap[q.id] = shuffledOptions;
+
+                let optionsHTML = shuffledOptions.map((opt, optIdx) => {
+                    const letter = String.fromCharCode(65 + optIdx);
+                    return `
+                        <button class="option-btn" onclick="selectOption(${q.id}, ${optIdx}, this)">
+                            <span class="opt-prefix">${letter}</span>
+                            <span class="opt-text">${escapeHtml(opt)}</span>
+                        </button>
+                    `;
+                }).join('');
+
+                const exp = q.explanation;
+                const vocabHTML = exp.vocab.map(v => `<div class="vocab-item">• ${escapeHtml(v)}</div>`).join('');
+
+                card.innerHTML = `
+                    <div class="question-header">
+                        <span class="q-number">Câu ${index + 1} / 15</span>
+                        <span class="q-category">${escapeHtml(q.category)}</span>
+                    </div>
+                    <div class="q-title">${escapeHtml(q.question)}</div>
+                    <div class="options-grid" id="options-${q.id}">
+                        ${optionsHTML}
+                    </div>
+                    <div class="explanation-box" id="exp-${q.id}">
+                        <div class="exp-head">💡 GIẢI THÍCH CHI TIẾT TỪ MS LÊ HẰNG:</div>
+                        
+                        <div class="exp-section">
+                            <strong>1. Phân tích từ vựng & 4 đáp án:</strong>
+                            <div class="vocab-list">${vocabHTML}</div>
+                        </div>
+
+                        <div class="exp-section">
+                            <strong>2. Dịch nghĩa toàn câu:</strong>
+                            <p style="color: #2b6cb0; font-weight: 700; margin-top: 2px;">"${escapeHtml(exp.translation)}"</p>
+                        </div>
+
+                        <div class="exp-section">
+                            <strong>3. Tại sao đáp án này ĐÚNG?</strong>
+                            <p style="color: #276749; margin-top: 2px;">${escapeHtml(exp.why_correct)}</p>
+                        </div>
+
+                        <div class="exp-section">
+                            <strong>4. Tại sao các đáp án còn lại SAI?</strong>
+                            <p style="color: #9b2c2c; margin-top: 2px;">${escapeHtml(exp.why_wrong)}</p>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qId, optIdx, btn) {
+            if (userAnswers[qId] !== undefined) return;
+
+            const question = rawQuestions.find(q => q.id === qId);
+            const selectedOpt = shuffledMap[qId][optIdx];
+            const isCorrect = (selectedOpt === question.answer);
+            userAnswers[qId] = selectedOpt;
+
+            const optionsContainer = document.getElementById(`options-${qId}`);
+            const allButtons = optionsContainer.querySelectorAll('.option-btn');
+
+            allButtons.forEach((b, idx) => {
+                b.classList.add('disabled');
+                const thisOpt = shuffledMap[qId][idx];
+                if (thisOpt === question.answer) {
+                    b.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                playSound('correct');
+                triggerConfetti();
+                totalScore += 1;
+            } else {
+                btn.classList.add('incorrect');
+                btn.classList.add('shake');
+                playSound('wrong');
+            }
+
+            const expBox = document.getElementById(`exp-${qId}`);
+            if (expBox) {
+                expBox.style.display = 'block';
+            }
+
+            updateStats();
+        }
+
+        function updateStats() {
+            const answeredCount = Object.keys(userAnswers).length;
+            document.getElementById('progress-text').innerText = `${answeredCount}/15`;
+            document.getElementById('score-text').innerText = totalScore;
+
+            const pct = (answeredCount / 15) * 100;
+            document.getElementById('progress-fill').style.width = `${pct}%`;
+        }
+
+        function submitQuiz() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount < 15) {
+                if (!confirm(`Con chưa làm hết các câu (${answeredCount}/15 câu). Con có chắc chắn muốn nộp bài ngay không?`)) {
+                    return;
+                }
+            }
+
+            const pct = (totalScore / 15) * 100;
+            let comment = "";
+
+            if (pct < 50) {
+                comment = "Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+            } else if (pct <= 80) {
+                comment = "Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+            } else {
+                comment = "Làm tốt lắm, con cố gắng rinh điểm 10 ở lần sau nha!";
+            }
+
+            document.getElementById('modal-score-val').innerText = `${totalScore} / 15`;
+            document.getElementById('modal-comment-text').innerText = comment;
+            document.getElementById('result-modal').style.display = 'flex';
+
+            triggerConfetti();
+        }
+
+        function closeModal() {
+            document.getElementById('result-modal').style.display = 'none';
+        }
+
+        window.onload = function() {
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
